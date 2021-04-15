@@ -75,7 +75,10 @@ export function Header() {
             </Text>
           </Box>
 
-          <Avatar size="md" name="Luiz Fernando" src="https://avatars.githubusercontent.com/u/30935322?v=4"/>
+          <Avatar 
+            size="md" 
+            name="Luiz Fernando" 
+          />
         </Flex>
       </Flex>
     </Flex>
