@@ -1,10 +1,15 @@
-import {Stack, Box} from '@chakra-ui/react'
+import {Stack, Box, useBreakpointValue} from '@chakra-ui/react'
 import {PaginationItem} from './PaginationItem'
 
 export default function Pagination() {
+  const isWideScreen = useBreakpointValue({
+    base: false,
+    lg: true
+  })
+
   return (
     <Stack
-      direction="row"
+      direction={["column", "row"]}
       mt="8"
       justify="space-between"
       align="center"
