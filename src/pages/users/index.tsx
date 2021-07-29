@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import {useQuery} from 'react-query'
 
 import {Box, Button, Checkbox, Flex, Heading, Text, Icon, Table, Tbody, Td, Th, Thead, Tr, useBreakpointValue, Spinner} from '@chakra-ui/react'
 import {RiAddLine} from 'react-icons/ri'
@@ -9,35 +8,10 @@ import {Header} from '../../components/Header'
 import Pagination from '../../components/Pagination'
 import {Sidebar} from '../../components/Sidebar'
 
-interface User {
-  id: string
-  name: string
-  email: string
-  createdAt: string
-}
+import {useUsers} from '../../services/hooks/useUsers'
 
 export default function UserList() {
-  const {data, isLoading, error} = useQuery('users', async () => {
-    const response = await fetch('http://localhost:3000/api/users')
-    const data = await response.json()
-    
-    const users: User[] = data.users.map((user: User) => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
-        })
-      }
-    })
-
-    return users
-  }, {
-    staleTime: 5000 // 5s
-  })
+  const {data, isLoading, error, isFetching} = useUsers()
 
   const isWideScreen = useBreakpointValue({
     base: false,
@@ -55,6 +29,8 @@ export default function UserList() {
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
               Usuários
+
+              {!isLoading && isFetching && <Spinner size="sm" color="gray.500" ml="4" />}
             </Heading>
 
             <Link href="/users/create" passHref>
